@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模型添加</title>
+    <link href="__STATIC__/component/pear/css/pear.css" rel="stylesheet" />
+</head>
+<body>
+    <form class="layui-form" action="{:url('add')}" method="post">
+        <div class="mainBox">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">模型标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="model_title" lay-verify="required" placeholder="请输入模型标题" value="测试"  class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">表名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="table_name" lay-verify="required" placeholder="请输入表名(不包含前缀)" value="test" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">表注释</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="table_comment" lay-verify="required" placeholder="请输入表注释" value="测试表" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">存储引擎</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="table_engine" value="InnoDB" title="InnoDB" checked>
+                        <input type="radio" name="table_engine" value="MyISAM" title="MyISAM">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">字符集</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="table_charset" lay-verify="required" placeholder="请输入字符集" value="utf8mb4" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">排序规则</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="table_collate" lay-verify="required" placeholder="请输入排序规则" value="utf8mb4_general_ci" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">表主键</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="table_primary" value="id" />
+                        {:build_select('id_field', widget('field')->get('', ['level'=>2]), 1)}
+                    </div>
+                </div>
+                <!--
+                <div class="layui-form-item">
+                    <label class="layui-form-label">列表排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="list_order" lay-verify="required" placeholder="请输入列表排序方式" value="id DESC" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分页条数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="list_limit" lay-verify="number" placeholder="分页条数，0为全部" value="10" class="layui-input">
+                    </div>
+                </div>
+                -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">回收站</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="is_recycle" value="1" lay-skin="switch" lay-text="开启|关闭">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">字段选择</label>
+                    <div class="layui-input-block">
+                        {php $fields=widget('field')->get()}
+                        <select name="fields" xm-select="fields">
+                            {foreach $fields as $k=>$title}
+                            <option value="{$k}">{$title}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js"></script>
+<script>
+layui.use(['form','jquery', 'willphp', 'select'],function(){
+    let form = layui.form;
+    let $ = layui.jquery;
+    let willphp = layui.willphp;
+    let select = layui.select;
+
+    form.on('submit(save)', function(data){
+        willphp.ajaxPost(data, 0, function () {
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+            parent.layui.table.reload('dataTable');
+        });
+        return false;
+    });
+})
+</script>
+</body>
+</html>

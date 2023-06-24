@@ -1,0 +1,2 @@
+-- 表的数据: wp_model(1/1) 每页: 1000 --
+INSERT INTO `wp_model` (`id`, `model_title`, `table_name`, `table_prefix`, `table_comment`, `table_engine`, `table_charset`, `table_collate`, `table_primary`, `list_order`, `list_limit`, `list_except`, `is_recycle`, `update_time`, `create_time`, `status`) VALUES ('2', '博客', 'blog', 'wp_', '博客表', 'InnoDB', 'utf8mb4', 'utf8mb4_general_ci', 'id', 'id DESC', '10', 'content', '0', '1687614913', '1687614913', '1');-- <fen> --

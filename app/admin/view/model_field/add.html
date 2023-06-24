@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <link href="__STATIC__/component/pear/css/pear.css" rel="stylesheet" />
+</head>
+<body>
+<form class="layui-form" action="{:url('add')}" method="post">
+    <input type="hidden" name="model_id" value="{$model_id}">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="field_title" lay-verify="required" placeholder="请输入字段标题" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="field_name" lay-verify="required" placeholder="请输入字段名称" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段类型</label>
+                <div class="layui-input-inline" style="width: 110px;">
+                    {:build_select('field_type', widget('dict')->get('field_type'), 'varchar')}
+                </div>
+                <div class="layui-form-mid"> 长度 </div>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="field_length" placeholder="字段长度" value="20" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">默认值</label>
+                <div class="layui-input-block">
+                    <input type="text" name="field_default" placeholder="留空为''，null为不设置" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">其他设置</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="is_required" title="必填" value="1" lay-skin="primary" checked>
+                    <input type="checkbox" name="is_unsigned" title="正数" value="1" lay-skin="primary">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段注释</label>
+                <div class="layui-input-block">
+                    <input type="text" name="field_comment" placeholder="请输入字段注释" value="" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">显示设置</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="at_list" title="列表" value="1" lay-skin="primary" checked>
+                    <input type="checkbox" name="at_add" title="添加" value="1" lay-skin="primary" checked>
+                    <input type="checkbox" name="at_edit" title="修改" value="1" lay-skin="primary" checked>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段排序</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sort" lay-verify="number" placeholder="排序值，越小越前" value="50" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段之后</label>
+                <div class="layui-input-block">
+                    <input type="text" name="field_after" placeholder="如果在其它字段后添加，请输入字段" value="" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js"></script>
+<script>
+    layui.use(['form','jquery', 'willphp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        let willphp = layui.willphp;
+
+        form.on('submit(save)', function(data){
+            willphp.ajaxPost(data, 0, function () {
+                parent.layer.close(parent.layer.getFrameIndex(window.name));
+                parent.layui.table.reload('dataTable');
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

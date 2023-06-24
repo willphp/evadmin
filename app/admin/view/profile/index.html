@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>个人资料</title>
+  <link rel="stylesheet" href="__STATIC__/component/pear/css/pear.css" />
+  <link rel="stylesheet" href="__STATIC__/admin/css/other/person.css" />
+</head>
+<body class="pear-container">
+<div class="layui-row layui-col-space10">
+  <div class="layui-col-md3">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 20px;">
+        <div class="text-center layui-text">
+          <div class="user-info-head" id="userInfoHead">
+            <img src="{$vo.avatar|get_avatar}" id="userAvatar" width="115px" height="115px" alt="">
+          </div>
+          <h3>{$vo.nickname}</h3>
+          <p style="margin:0;">{$vo.about}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-card">
+      <div class="layui-card-header">
+        个人信息
+      </div>
+      <div class="layui-card-body">
+        <form class="layui-form" action="{:url('index')}" method="post">
+          <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-block">
+              <input type="text" name="nickname" lay-verify="required" lay-reqtext="请输入昵称" placeholder="请输入昵称" value="{$vo.nickname}" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-block">
+              <input type="text" name="about" placeholder="请输入简介" value="{$vo.about}" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">QQ号</label>
+            <div class="layui-input-block">
+              <input type="text" name="qq" placeholder="请输入QQ号" value="{$vo.qq}" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">手机</label>
+            <div class="layui-input-block">
+              <input type="text" name="mobile" lay-verify="phone" placeholder="请输入手机号" value="{$vo.mobile}" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+              <input type="text" name="email" lay-verify="email" placeholder="请输入邮箱" value="{$vo.email}" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+                <button type="submit" class="layui-btn layui-btn layui-btn-sm" style="float: right" lay-submit="" lay-filter="save">
+                    <i class="layui-icon layui-icon-ok"></i>
+                    修改
+                </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+
+    <div class="layui-card">
+      <div class="layui-card-header">
+        累计登录 {$vo.login_count} 次
+      </div>
+      <div class="layui-card-body">
+        <ul class="list">
+          <li class="list-item"><span class="title">上次时间</span><span class="footer">{:date('Y-m-d H:i:s', $vo['login_time'])}</span></li>
+          <li class="list-item"><span class="title">上次IP</span><span class="footer">{$vo.login_ip|long2ip}</span></li>
+        </ul>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="layui-col-md9">
+    <div class="layui-card">
+      <div class="layui-card-header">
+        <h3>模型自动验证,处理,过滤示例</h3>
+      </div>
+      <div class="layui-card-body">
+<pre class="layui-code code-demo" lay-options="{}">
+//条件常量
+//const AT_MUST = 1; //必须
+//const AT_NOT_NULL = 2; //有值
+//const AT_NULL = 3; //空值
+//const AT_SET = 4; //有字段
+//const AT_NOT_SET = 5; //无字段
+//时机常量
+//const IN_BOTH = 1; //全部操作
+//const IN_INSERT = 2; //新增
+//const IN_UPDATE = 3; //更新
+//自动验证
+//格式:'字段', '验证规则[|...]', '错误提示[|...]', [条件常量], [时机常量]
+protected array $validate = [
+    ['username', 'required|unique', '用户必须|用户已存在', AT_MUST, IN_INSERT],
+    ['password', '/^\w{6,12}$/', '密码6-12位', 1, 2],
+    ['re_password', 'confirm:password', '确认密码不一致', 1, 2],
+    ['email', 'email', '邮箱格式错误', AT_NOT_NULL, IN_BOTH],
+];
+//自动处理
+//格式:'字段', '处理规则', '处理方式[string,function,method]', [条件常量], [时机常量]
+protected array $auto = [
+    ['password', 'setPwd', 'method', AT_NOT_NULL, IN_BOTH],
+    ['status', '1', 'string', AT_MUST, IN_INSERT],
+    ['add_time', 'time', 'function', 1, 2],
+];
+//自定义处理规则
+public function setPwd(string $val, array $data): string
+{
+    return md5($val);
+}
+//自动过滤
+//格式:'字段', [条件常量], [时机常量]
+protected array $filter = [
+    ['password', AT_NULL, IN_UPDATE], //为空时过滤不更新
+];
+</pre>
+        <h4></h4>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js"></script>
+<script>
+  layui.use(['jquery', 'element', 'layer', 'convert', 'willphp', 'form'], function () {
+    let element = layui.element,
+            layer = layui.layer,
+            $ = layui.jquery,
+            convert = layui.convert,
+            willphp = layui.willphp,
+            form = layui.form;
+
+    layui.code({
+      elem: '.code-demo'
+    });
+
+
+    let image = new Image();
+    image.src = "{$vo.avatar|get_avatar}?"+Math.random();
+    image.onload = function() {
+      $("#userAvatar").attr("src", convert.imageToBase64(image));
+    }
+
+    window.callback = function (data) {
+      layer.close(data.index);
+      let post = { form: { action: "{:url('api/upload_base64')}"}, field: {base64: data.newAvatar, type: 'avatar'}};
+      willphp.ajaxPost(post, 0, function () {
+        $("#userAvatar").attr("src", data.newAvatar);
+      });
+    }
+
+    $("#userAvatar").click(function () {
+      layer.open({
+        type: 2,
+        title: '更换头像',
+        shade: 0.1,
+        area: ["900px", "530px"],
+        content: "{:url('avatar')}",
+        btn: ['确定', '取消'],
+        yes: function (index, layero) {
+          window['layui-layer-iframe' + index].submitForm();
+        }
+      });
+    });
+
+    form.on('submit(save)', function(data){
+      willphp.ajaxPost(data, 2);
+      return false;
+    });
+
+  });
+</script>
+</body>
+</html>

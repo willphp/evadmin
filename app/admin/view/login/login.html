@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>{:site('site_title')}</title>
+  <link rel="stylesheet" href="__STATIC__/component/pear/css/pear.css" />
+  <link rel="stylesheet" href="__STATIC__/admin/css/other/login.css?v={:time()}" />
+</head>
+<body style="background-image:url('__STATIC__/admin/images/background.svg');background-size: cover;">
+<form class="layui-form" action="{:url('login/login')}">
+  <div class="layui-form-item">
+    <img class="logo" src="__STATIC__/admin/images/logo.png" />
+    <div class="title">{:site('site_h1')}</div>
+    <div class="desc">
+      {:site('site_h2')}
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-wrap">
+      <div class="layui-input-prefix">
+        <i class="layui-icon layui-icon-username"></i>
+      </div>
+      <input type="text" name="username" hover class="layui-input" placeholder="账 户" lay-verify="required" lay-reqtext="请输入账户" autocomplete="off" lay-affix="clear"/>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-wrap">
+      <div class="layui-input-prefix">
+        <i class="layui-icon layui-icon-password"></i>
+      </div>
+      <input type="password" name="password" hover class="layui-input" placeholder="密 码" lay-verify="required" lay-reqtext="请输入密码" lay-affix="eye"/>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-row">
+      <div class="layui-col-xs7">
+        <div class="layui-input-wrap">
+          <div class="layui-input-prefix">
+            <i class="layui-icon layui-icon-vercode"></i>
+          </div>
+          <input type="text" name="captcha" maxlength="4" value="" lay-verify="required" placeholder="验证码" lay-reqtext="请输入验证码" autocomplete="off" class="layui-input" lay-affix="clear">
+        </div>
+      </div>
+      <div class="layui-col-xs5">
+          <img src="{:url('login/captcha')}" class="codeImage" onclick="this.src='{:url('login/captcha')}?'+Math.random();"/>
+      </div>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <input type="checkbox" name="remember" value="5" title="保持登录" lay-skin="primary" checked />
+  </div>
+  <div class="layui-form-item">
+    <button type="button" class="layui-btn layui-btn-fluid" lay-submit lay-filter="login">登 录</button>
+  </div>
+</form>
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js"></script>
+<script>
+  layui.use(['form', 'jquery', 'willphp'], function() {
+    let form = layui.form;
+    let $ = layui.jquery;
+    let willphp = layui.willphp;
+
+    form.on('submit(login)', function(data) {
+      willphp.ajaxPost(data, 1, function () {}, function () {
+        $('.codeImage').attr('src', "{:url('login/captcha')}?"+Math.random());
+      });
+      return false;
+    });
+  })
+</script>
+<script>
+  if (top !== self) {
+    window.top.location.href = location;
+  }
+</script>
+</body>
+</html>

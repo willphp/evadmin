@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{:site('site_title')}</title>
+    <link rel="stylesheet" href="__STATIC__/component/pear/css/pear.css"/>
+    <link rel="stylesheet" href="__STATIC__/admin/css/loader.css"/>
+    <link rel="stylesheet" href="__STATIC__/admin/css/admin.css"/>
+    <style>
+        .pear-admin .layui-logo .logo {
+            display: inline-block;
+        }
+        .layui-layout-admin .layui-logo {
+            left: 13px;
+            text-align: left
+        }
+    </style>
+</head>
+<body class="layui-layout-body pear-admin">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">
+            <img class="logo"/>
+            <span class="title"></span>
+        </div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="collapse layui-nav-item"><a href="#" class="layui-icon layui-icon-shrink-right"></a></li>
+            <li class="refresh layui-nav-item"><a href="#" class="layui-icon layui-icon-refresh-1" loading=600></a></li>
+        </ul>
+        <div id="control" class="layui-layout-control"></div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide-xs"><a href="#" class="fullScreen layui-icon layui-icon-screen-full"></a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="#" class="clearCache layui-icon layui-icon-log"></a></li>
+            <li class="layui-nav-item user">
+                <a class="layui-icon layui-icon-username" href="javascript:;"></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:void(0);" user-menu-url="{:url('profile/index')}" user-menu-id="5555" user-menu-title="基本资料">资料</a></dd>
+                    <dd><a href="javascript:void(0);" class="password">改密</a></dd>
+                    <dd><a href="javascript:void(0);" class="logout">退出</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item setting"><a href="#" class="layui-icon layui-icon-more-vertical"></a></li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-logo">
+            <img class="logo"/>
+            <span class="title"></span>
+        </div>
+        <div class="layui-side-scroll">
+            <div id="sideMenu"></div>
+        </div>
+    </div>
+    <div class="layui-body">
+        <div id="content"></div>
+    </div>
+    <div class="layui-footer layui-text">
+        <span class="left">Released under the MIT license.</span>
+        <span class="center"></span>
+        <span class="right">Copyright © 2020-2023 113344.com</span>
+    </div>
+    <div class="pear-cover"></div>
+    <div class="loader-main">
+        <div class="loader"></div>
+    </div>
+</div>
+<div class="pear-collapsed-pe collapse">
+    <a href="#" class="layui-icon layui-icon-shrink-right"></a>
+</div>
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js"></script>
+<script>
+    layui.use(['admin', 'jquery', 'popup', 'drawer', 'willphp'], function () {
+        let $ = layui.jquery;
+        let admin = layui.admin;
+        let willphp = layui.willphp;
+
+        admin.render({
+            "logo": {
+                "title": "{:site('site_h1')}",
+                "image": "__STATIC__/admin/images/logo.png"
+            },
+            "menu": {
+                "data": "{:url('index/menu')}",
+                "method": "GET",
+                "accordion": true,
+                "collapse": false,
+                "control": false,
+                "controlWidth": 500,
+                "select": "2",
+                "async": true
+            },
+            "tab": {
+                "enable": true,
+                "keepState": true,
+                "session": true,
+                "preload": false,
+                "max": "30",
+                "index": {
+                    "id": "2",
+                    "href": "{:url('index/home')}",
+                    "title": "首页"
+                }
+            },
+            "theme": {
+                "defaultColor": "3",
+                "defaultMenu": "dark-theme",
+                "defaultHeader": "dark-theme",
+                "allowCustom": true,
+                "banner": false
+            },
+            "colors": [
+                {
+                    "id": "1",
+                    "color": "#16baaa",
+                    "second": "#ecf5ff"
+                },
+                {
+                    "id": "2",
+                    "color": "#16b777",
+                    "second": "#f0f9eb"
+                },
+                {
+                    "id": "3",
+                    "color": "#009688",
+                    "second": "#fdf6ec"
+                },
+                {
+                    "id": "4",
+                    "color": "#a971cc",
+                    "second": "#fef0f0"
+                },
+                {
+                    "id": "5",
+                    "color": "#1e90ff",
+                    "second": "#ecf5ff"
+                }
+            ],
+            "other": {
+                "keepLoad": "1200",
+                "autoHead": false,
+                "footer": false
+            },
+            "header": {
+                message: false
+            }
+        });
+        //退出
+        admin.logout(function () {
+            willphp.ajaxConfirm("{:url('login/logout')}", '退出', 1);
+            return true;
+        });
+        //清除缓存
+        $('.clearCache').click(function () {
+            willphp.ajaxConfirm("{:url('api/clear')}", '清空缓存', 2);
+            return true;
+        });
+        //修改密码
+        $('.password').click(function () {
+            layer.open({
+                type: 2,
+                maxmin: true,
+                title: '修改密码',
+                shade: 0.1,
+                area: ['300px', '300px'],
+                content: 'profile/pass'
+            });
+        });
+    })
+</script>
+</body>
+</html>

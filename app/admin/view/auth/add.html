@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="__STATIC__/component/pear/css/pear.css" rel="stylesheet" />
+</head>
+<body style="padding:15px">
+<form class="layui-form" action="{:url('add')}" method="post">
+  <div class="layui-form-item">
+    <label class="layui-form-label">父级</label>
+    <div class="layui-input-block">
+      {:build_select('pid', widget('menu')->get(), 1)}
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">图标</label>
+    <div class="layui-input-block">
+      <input type="text" name="icon" id="iconPicker" value="layui-icon-face-smile-fine" lay-filter="iconPicker">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">*名称</label>
+    <div class="layui-input-block">
+      <input type="text" name="title" lay-verify="required" placeholder="权限菜单中文名称" class="layui-input" >
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">规则</label>
+    <div class="layui-input-block">
+      <input type="text" name="auth" placeholder="权限验证：控制器名/方法名" class="layui-input" >
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">链接</label>
+    <div class="layui-input-block">
+      <input type="text" name="href" placeholder="链接地址：控制器名/方法名" class="layui-input" >
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">类型</label>
+    <div class="layui-input-block">
+      <input type="radio" name="type" value="0" title="目录" checked>
+      <input type="radio" name="type" value="1" title="菜单">
+      <input type="radio" name="type" value="2" title="节点">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">禁删</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="is_system" value="1" lay-skin="switch" lay-text="是|否">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">*排序</label>
+    <div class="layui-input-block">
+      <input type="text" name="sort" value="1" lay-verify="number" placeholder="请输入排序值" class="layui-input" >
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="button-container">
+      <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="save">
+        <i class="layui-icon layui-icon-ok"></i>
+        提交
+      </button>
+      <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+        <i class="layui-icon layui-icon-refresh"></i>
+        重置
+      </button>
+    </div>
+</form>
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js"></script>
+<script>
+  layui.use(['form','iconPicker','willphp'], function() {
+    let form = layui.form;
+    let iconPicker = layui.iconPicker;
+    let willphp= layui.willphp;
+
+    iconPicker.render({
+      elem: '#iconPicker',
+      type: 'fontClass',
+      search: true,
+      page: true,
+      limit: 16,
+      click: function(data) {
+        //console.log(data);
+      },
+      success: function(d) {
+        //console.log(d);
+      }
+    });
+
+    form.on('submit(save)', function(data){
+      willphp.ajaxPost(data, 0, function () {
+        parent.layer.close(parent.layer.getFrameIndex(window.name));
+        top.location.reload();
+      });
+      return false;
+    });
+
+  });
+</script>
+</body>
+</html>

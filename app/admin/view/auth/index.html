@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单管理</title>
+    <link rel="stylesheet" href="__STATIC__/component/pear/css/pear.css" />
+</head>
+<body class="pear-container">
+
+<!-- 表格列表 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="dataTable" lay-filter="dataTable"></table>
+    </div>
+</div>
+
+<!-- 工具栏 -->
+<script type="text/html" id="table-toolbar">
+    <button class="layui-btn layui-btn-sm" lay-event="add">
+        <i class="layui-icon layui-icon-add-1"></i>
+        新增
+    </button>
+    <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="expandAll">
+        <i class="layui-icon layui-icon-spread-left"></i>
+        展开
+    </button>
+    <button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="foldAll">
+        <i class="layui-icon layui-icon-shrink-right"></i>
+        折叠
+    </button>
+</script>
+
+<!-- 行操作 -->
+<script type="text/html" id="table-bar">
+    <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
+        <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="remove"><i class="layui-icon layui-icon-delete"></i></button>
+    </div>
+</script>
+
+<!-- 类型 -->
+<script type="text/html" id="rule-type">
+    <span>{{ d.type == 0 ? '目录' : d.type == 1 ? '菜单' : '节点' }}</span>
+</script>
+
+<!-- 状态 -->
+<script type="text/html" id="status">
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|停用" lay-filter="status" {{ d.status == 1 ? 'checked' : '' }} />
+</script>
+
+<!-- 图标 -->
+<script type="text/html" id="icon">
+    <i class="layui-icon {{d.icon}}"></i>
+</script>
+
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js"></script>
+<script>
+    layui.use(['table','form','jquery','treetable', 'willphp'],function () {
+        let table = layui.table;
+        let form = layui.form;
+        let $ = layui.jquery;
+        let treetable = layui.treetable;
+        let willphp = layui.willphp;
+
+        function screen(width, height) {
+            if (typeof width !== 'number' || width === 0) {
+                width = $(window).width() * 0.8;
+            }
+            if (typeof height !== 'number' || height === 0) {
+                height = $(window).height() - 20;
+            }
+            return [width + 'px', height + 'px'];
+        }
+
+        window.render = function(){
+            treetable.render({
+                treeColIndex: 0,
+                treeSpid: 1,
+                treeIdName: 'id',
+                treePidName: 'pid',
+                skin:'line',
+                method:'post',
+                treeDefaultClose: false,
+                toolbar:'#table-toolbar',
+                elem: '#dataTable',
+                url: "{:url('index')}",
+                page: false,
+                cols: [
+                    [
+                        {field: 'title', minWidth: 200, title: '权限名称'},
+                        {field: 'icon', title: '图标', templet:'#icon'},
+                        {field: 'type', title: '权限类型', templet:'#rule-type'},
+                        {field: 'status', title: '状态', templet: '#status'},
+                        {field: 'sort', title: '排序'},
+                        {title: '操作',templet: '#table-bar', width: 150, align: 'center'}
+                    ]
+                ]
+            });
+        }
+        render();
+
+        table.on('toolbar(dataTable)', function(obj){
+            if(obj.event === 'add'){
+                layer.open({ type: 2, maxmin: true, title: '新增', shade: 0.1, area: screen(500, 530),content: "{:url('add')}"});
+            } else if(obj.event === 'expandAll'){
+                treetable.expandAll("#dataTable");
+            } else if(obj.event === 'foldAll'){
+                treetable.foldAll("#dataTable");
+            }
+        });
+
+        table.on('tool(dataTable)',function(obj){
+            if (obj.event === 'remove') {
+                window.remove(obj);
+            } else if (obj.event === 'edit') {
+                window.edit(obj);
+            }
+        });
+
+        //状态切换事件
+        form.on('switch(status)', function(data) {
+            let status = data.elem.checked?1:0;
+            let options = {
+                form: { action: "{:url('state')}"},
+                field: {
+                    ids: this.value,
+                    params: 'status-' + status
+                },
+            };
+            willphp.ajaxPost(options, 0, function () {}, function () {
+                $(data.elem).prop('checked',!$(data.elem).prop('checked'));
+                form.render();
+            });
+        });
+
+        //编辑(行操作)
+        window.edit = function(obj){
+            layer.open({ type: 2, maxmin: true, title: '修改', shade: 0.1, area:  screen(500, 530), content: "{:url('edit')}?id="+obj.data['id'] });
+        }
+
+        //删除单行(行操作)
+        window.remove = function(obj){
+            willphp.ajaxConfirm("{:url('del')}?ids="+obj.data['id'], '删除'+obj.data['id'], 0, function () {obj.del()});
+        }
+
+    })
+</script>
+</body>
+</html>

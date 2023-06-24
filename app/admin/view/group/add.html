@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <link href="__STATIC__/component/pear/css/pear.css" rel="stylesheet" />
+</head>
+<body>
+    <form class="layui-form" action="{:url('add')}" method="post" lay-filter="authtree-submit-form">
+        <div class="mainBox">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" lay-verify="required" lay-reqtext="请输入角色名称" placeholder="请输入角色名称" value="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">描述</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="about" lay-verify="required" lay-reqtext="请输入角色描述" placeholder="请输入角色描述" value="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">权限</label>
+                    <div class="layui-input-block">
+                        <div id="LAY-auth-tree-index"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js?v={:time()}"></script>
+<script>
+layui.use(['form','jquery', 'willphp', 'authtree'],function(){
+    let form = layui.form;
+    let $ = layui.jquery;
+    let willphp = layui.willphp;
+    let authtree = layui.authtree;
+
+    $.getJSON("{:url('get_auth')}?selected=2",function(res){
+        authtree.render('#LAY-auth-tree-index', res.data, {
+            inputname: 'rule[]',
+            layfilter: 'lay-check-auth',
+            childKey: 'children',
+            nameKey: 'title',
+            valueKey: 'id',
+            theme: 'auth-skin-default',
+            themePath: '__STATIC__/component/pear/module/authtree/tree_themes/',
+            autowidth: true,
+            formFilter: 'authtree-submit-form'
+        });
+    });
+
+    //获取选中的ids
+    function getIds(data) {
+        if(data.length === 0){
+            return '';
+        }
+        let ids = '';
+        for(let i = 0;i<data.length;i++){
+            ids += data[i]+',';
+        }
+        return ids.substr(0,ids.length-1);
+    }
+
+    form.on('submit(save)', function(data){
+        let ids = authtree.getChecked('#LAY-auth-tree-index');
+        data.field.auth = getIds(ids);
+        willphp.ajaxPost(data, 0, function () {
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+            parent.layui.table.reload('dataTable');
+        });
+        return false;
+    });
+
+})
+</script>
+</body>
+</html>

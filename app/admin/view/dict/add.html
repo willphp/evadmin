@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <link href="__STATIC__/component/pear/css/pear.css" rel="stylesheet" />
+</head>
+<body>
+    <form class="layui-form" action="{:url('add')}" method="post">
+        <input type="hidden" name="type" value="{:input('get.type', 0, 'intval')}">
+        <div class="mainBox">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" lay-verify="required" placeholder="英文名称" value="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">描述</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" lay-verify="required" placeholder="中文描述" value="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort" lay-verify="number" placeholder="排序值" value="1" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js"></script>
+<script>
+layui.use(['form','jquery', 'willphp'],function(){
+    let form = layui.form;
+    let $ = layui.jquery;
+    let willphp = layui.willphp;
+
+    form.on('submit(save)', function(data){
+        willphp.ajaxPost(data, 0, function () {
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+            parent.layui.table.reload('dict-table');
+        });
+        return false;
+    });
+})
+</script>
+</body>
+</html>

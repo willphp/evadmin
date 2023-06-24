@@ -1,49 +1,37 @@
 {
-  "name": "willphp/framework",
-  "description": "WillPHP框架内核(Kernel)",
+  "name": "willphp/yiyu",
+  "description": "一鱼PHP框架willphp framework",
+  "type": "project",
   "keywords": [
     "willphp",
     "一鱼框架",
     "framework",
-    "kernel"
+    "ORM"
   ],
   "homepage": "http://www.113344.com/",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "authors": [
     {
-      "name": "no-mind",
+      "name": "无念",
       "email": "24203741@qq.com"
     }
   ],
   "minimum-stability": "stable",
   "require": {
-    "php": ">=5.6.0",
-    "willphp/container": "~1.0",
-    "willphp/config": "~1.0",
-    "willphp/error": "~1.0",
-    "willphp/session": "~1.0",
-    "willphp/request": "~1.0",
-    "willphp/middleware": "~1.0",
-    "willphp/route": "~1.0",
-    "willphp/response": "~1.0",
-    "willphp/cache": "~1.0",
-    "willphp/collection": "~1.0",
-    "willphp/cookie": "~1.0",
-    "willphp/crypt": "~1.0",
-    "willphp/db": "~1.0",
-    "willphp/debug": "~1.0",
-    "willphp/log": "~1.0",
-    "willphp/model": "~1.0",
-    "willphp/page": "~1.0",
-    "willphp/validate": "~1.0",
-    "willphp/view": "~1.0"
+    "php": ">=7.4.3",
+    "ext-json": "*",
+    "ext-pdo": "*",
+    "ext-mbstring": "*",
+    "ext-gd": "*",
+    "ext-openssl": "*",
+    "ext-zip": "*"
   },
   "autoload": {
-    "files": [
-      "src/helper.php"
-    ],
     "psr-4": {
-      "willphp\\framework\\": "src"
+      "app\\": "app",
+      "willphp\\core\\": "willphp/core",
+      "middleware\\": "middleware",
+      "extend\\": "extend"
     }
   }
 }

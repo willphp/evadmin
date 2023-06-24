@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字段字典修改</title>
+    <link href="__STATIC__/component/pear/css/pear.css" rel="stylesheet" />
+</head>
+<body>
+
+<div class="layui-card" style="padding:0 15px">
+    <form class="layui-form edit-form" method="post" action="{:url('edit')}">
+        <input type="hidden" name="id" value="{$vo.id}">
+        <div class="layui-tab layui-tab-brief" lay-filter="TabBrief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本设置</li>
+                <li>表单设置</li>
+                <li>模型设置</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字典名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="dict_name" lay-verify="required" placeholder="请输入字典名称" value="{$vo.dict_name}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字段级别</label>
+                        <div class="layui-input-block">
+                            {:build_select('level', ['可选字段', '必须字段', '自增主键(ID)'], $vo['level'])}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字段类型</label>
+                        <div class="layui-input-inline" style="width: 110px;">
+                            {:build_select('field_type', widget('dict')->get('field_type'), $vo['field_type'])}
+                        </div>
+                        <div class="layui-form-mid"> 长度 </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" name="field_length" placeholder="字段长度" value="{$vo.field_length}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字段标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="field_title" lay-verify="required" placeholder="请输入字段标题" value="{$vo.field_title}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字段名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="field_name" lay-verify="required" placeholder="请输入字段名称" value="{$vo.field_name}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">默认值</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="field_default" placeholder="留空为''，null为不设置" value="{$vo.field_default}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">其他设置</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="is_required" title="必填" value="1" lay-skin="primary" {if $vo['is_required']:} checked="checked"{/if}>
+                            <input type="checkbox" name="is_unsigned" title="正数" value="1" lay-skin="primary" {if $vo['is_unsigned']:} checked="checked"{/if}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字段注释</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="field_comment" placeholder="请输入字段注释" value="{$vo.field_comment}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">显示设置</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="at_list" title="列表" value="1" lay-skin="primary"{if $vo['at_list']:} checked{/if}>
+                            <input type="checkbox" name="at_add" title="添加" value="1" lay-skin="primary"{if $vo['at_add']:} checked{/if}>
+                            <input type="checkbox" name="at_edit" title="修改" value="1" lay-skin="primary"{if $vo['at_edit']:} checked{/if}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字段排序</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sort" lay-verify="number" placeholder="排序值，越小越前" value="{$vo.sort}" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字段查询</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="is_search" value="1" lay-skin="switch" lay-text="开启|关闭" {if $vo['is_search']:} checked="checked"{/if}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">查询方式</label>
+                        <div class="layui-input-block">
+                            {:build_select('search_exp', ['='=>'=', 'like'=>'like'], $vo['search_exp'])}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">表单类型</label>
+                        <div class="layui-input-block">
+                            {:build_select('form_type', widget('dict')->get('form_type'), $vo['form_type'])}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">表单标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="input_title" placeholder="请输入表单标题" value="{$vo.input_title}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">表单默认</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="input_default" placeholder="请输入表单默认值" value="{$vo.input_default}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">表单展示</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="input_tip" placeholder="表单展示方式(高级设置)" value="{$vo.input_tip}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">表单验证</label>
+                        <div class="layui-input-block">
+                            {:build_select('input_verify', widget('dict')->get('form_verify'), $vo['input_verify'])}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">绑定字典</label>
+                        <div class="layui-input-block">
+                            {:build_select('bind_dict_id', widget('bind')->get(), $vo['bind_dict_id'])}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">列表模板</label>
+                        <div class="layui-input-block">
+                            <textarea name="list_tpl" placeholder="列表显示模板" class="layui-textarea">{$vo.list_tpl}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">自动验证</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="verify_on" value="1" lay-skin="switch" lay-text="开启|关闭" {if $vo['verify_on']:} checked="checked"{/if}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">验证规则</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="verify_rule" placeholder="验证规则，用|分隔" value="{$vo.verify_rule}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">验证提示</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="verify_msg" placeholder="验证提示，用|分隔" value="{$vo.verify_msg}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">验证条件</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            {:build_select('verify_at', [1=>'必须', '有值', '空值', '有字段', '无字段'], $vo['verify_at'])}
+                        </div>
+                        <div class="layui-form-mid"> 验证时机 </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            {:build_select('verify_in', [1=>'全部', '新增', '更新'], $vo['verify_in'])}
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">自动处理</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="auto_on" value="1" lay-skin="switch" lay-text="开启|关闭" {if $vo['auto_on']:} checked="checked"{/if}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">处理方式</label>
+                        <div class="layui-input-block">
+                            {:build_select('auto_way', ['string'=>'填充字符', 'function'=>'函数处理', 'method'=>'模型方法'], $vo['auto_way'])}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">处理规则</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="auto_rule" placeholder="处理规则，用|分隔" value="{$vo.auto_rule}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">处理条件</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            {:build_select('auto_at', [1=>'必须', '有值', '空值', '有字段', '无字段'], $vo['auto_at'])}
+                        </div>
+                        <div class="layui-form-mid"> 处理时机 </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            {:build_select('auto_in', [1=>'全部', '新增', '更新'], $vo['auto_in'])}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">自动过滤</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="filter_on" value="1" lay-skin="switch" lay-text="开启|关闭" {if $vo['filter_on']:} checked="checked"{/if}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">过滤条件</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            {:build_select('filter_at', [1=>'必须', '有值', '空值', '有字段', '无字段'], $vo['filter_at'])}
+                        </div>
+                        <div class="layui-form-mid"> 过滤时机 </div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            {:build_select('filter_in', [1=>'全部', '新增', '更新'], $vo['filter_in'])}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="button-container">
+                <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="save">
+                    <i class="layui-icon layui-icon-ok"></i>
+                    提交
+                </button>
+                <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="__STATIC__/component/layui/layui.js"></script>
+<script src="__STATIC__/component/pear/pear.js"></script>
+<script>
+layui.use(['form','jquery', 'willphp'],function(){
+    let form = layui.form;
+    let $ = layui.jquery;
+    let willphp = layui.willphp;
+
+    form.on('submit(save)', function(data){
+        willphp.ajaxPost(data, 0, function () {
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+            parent.layui.table.reload('dataTable');
+        });
+        return false;
+    });
+})
+</script>
+</body>
+</html>

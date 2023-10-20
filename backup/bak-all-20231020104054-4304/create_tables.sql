@@ -52,21 +52,6 @@ CREATE TABLE `wp_auth_rule` (
   KEY `pid` (`pid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='节点菜单';
 -- <fen> --
--- 表的结构: wp_blog --
-CREATE TABLE `wp_blog` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
-  `category_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '分类',
-  `thumb` varchar(100) NOT NULL DEFAULT '' COMMENT '封面图',
-  `tag_ids` varchar(200) NOT NULL DEFAULT '' COMMENT '标签',
-  `content` text NOT NULL COMMENT '内容',
-  `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶',
-  `post_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='博客表';
--- <fen> --
 -- 表的结构: wp_dict --
 CREATE TABLE `wp_dict` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',

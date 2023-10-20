@@ -13,11 +13,14 @@ namespace middleware;
 
 use Closure;
 
+/**
+ * 全局中件间
+ */
 class Boot
 {
     public function run(Closure $next): void
     {
-        trace('全局执行');
+        trace('欢迎使用 '.__POWERED__.' 全局中间件');
         $next();
     }
 }

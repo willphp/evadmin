@@ -38,8 +38,6 @@ abstract class Base
     public function add(array $req)
     {
         if ($this->isPost()) {
-            //log_var($req);
-            //$this->error('ok');
             $r = model($this->model)->save($req);
             $this->_jump(['添加成功', '添加失败'], $r, $this->jumpUrl);
         }

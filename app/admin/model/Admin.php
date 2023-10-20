@@ -8,8 +8,9 @@ class Admin extends Model {
     protected array $validate = [
         ['username', 'user|unique', '账户格式错误|账户已存在', 1, 2],
         ['nickname', 'unique', '昵称已存在', 1, 1],
-        ['password', '/^\w{1,12}$/', '密码格式错误(1-12位)', 4, 2],
-        ['re_password', 'confirm:password', '确认密码不一致', 4, 1],
+  		['password', 'required', '请输入密码', AT_MUST, IN_INSERT],
+        ['password', '/^\w{1,12}$/', '密码1-12位', AT_NOT_NULL, IN_BOTH],
+        ['re_password', 'confirm:password', '确认密码不一致', AT_MUST, IN_BOTH],
         ['email', 'email', '邮箱格式错误', 2, 1],
         ['mobile', 'mobile', '手机号格式错误', 2, 1],
         ['qq', 'qq', 'QQ号格式错误', 2, 1],
@@ -24,7 +25,7 @@ class Admin extends Model {
     ];
 
     public function setPassword($value, array $data): string
-    {
+    {		
         return $this->getEncryptPassword($value, $data['username']);
     }
 

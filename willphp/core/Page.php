@@ -11,6 +11,9 @@ declare(strict_types=1);
 
 namespace willphp\core;
 
+/**
+ * 快速分页类
+ */
 class Page
 {
     use Single;
@@ -62,7 +65,7 @@ class Page
         return $this->offset . ',' . $this->pageSize;
     }
 
-    public function getHtml(string $class = 'pagination cl', string $active = 'active'): string
+    public function getHtml(string $class = 'pagination clearfix', string $active = 'active'): string
     {
         $html = '';
         if ($this->totalPage > 0) {

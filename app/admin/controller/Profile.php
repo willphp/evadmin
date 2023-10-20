@@ -6,7 +6,7 @@ class Profile
 {
     use Jump;
     protected string $middleware = 'auth';
-
+    //个人资料
 	public function index(array $req)
 	{
         $uid = session('user.id');
@@ -18,7 +18,7 @@ class Profile
         }
 		return view()->with('vo', $user->toArray());
 	}
-
+    //修改密码
     public function pass(array $req)
     {
         if ($this->isPost()) {
@@ -28,7 +28,7 @@ class Profile
         }
         return view();
     }
-
+    //头像设置
     public function avatar()
     {
         return view();

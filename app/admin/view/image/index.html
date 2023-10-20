@@ -92,7 +92,7 @@
         {title: '图片', field: 'href',templet:function (d) { return '<img class="photo" lay-event="photo" src=" '+d.href+'"></i>'; }},
         {title: '路径', field: 'path'},
 		{title: '后缀', field: 'ext'},
-        {title: '大小', field: 'filesize'},
+        {title: '大小', field: '_filesize'},
 		{title: '上传时间', field: 'create_time', templet: '<div>{{layui.util.toDateString(d.create_time*1000, \'yyyy-MM-dd HH:mm:ss\')}}</div>'},
 		{title: '状态', field: 'status', align:'center', unresize: true, templet: '#status'},
         {title: '操作', toolbar: '#table-bar', align:'center', width:195}

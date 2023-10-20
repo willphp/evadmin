@@ -9,6 +9,11 @@ class Image extends Model {
 		['status', '1', 'string', 1, 2],
 	];
 
+    public function getFilesizeAttr(int $val, array $data): string
+    {
+        return size_format($val);
+    }
+
     protected function _after_delete(array $data): void
     {
         $filename = trim($data['path'], '.');

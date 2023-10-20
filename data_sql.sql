@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2023-06-24 22:32:47
+-- 生成日期： 2023-10-20 11:39:28
 -- 服务器版本： 5.7.26
 -- PHP 版本： 7.3.4
 
@@ -51,8 +51,8 @@ CREATE TABLE `wp_admin` (
 --
 
 INSERT INTO `wp_admin` (`id`, `group_id`, `username`, `password`, `nickname`, `about`, `avatar`, `email`, `mobile`, `qq`, `login_count`, `login_time`, `login_ip`, `create_time`, `status`) VALUES
-(1, 1, 'admin', 'a24676a269f6bfa53827470c4ea8cf24', '无念', 'PHP是世界上最好的语言', '/uploads/avatar/uid_1.png', '24203741@qq.com', '15877778888', '24203741', 15, 1687614077, 2130706433, 1686839079, 1),
-(2, 2, 'test', '87ae5694eb98e31fb40af6e5d5cb2d64', '测试', '用于测试', '/uploads/avatar/uid_2.png', '', '', '', 1, 1687166169, 2130706433, 1687133115, 1);
+(1, 1, 'admin', '86f3059b228c8acf99e69734b6bb32cc', '无念', 'PHP是世界上最好的语言', '/uploads/avatar/uid_1.png', '24203741@qq.com', '15877778888', '24203741', 16, 1697772411, 2130706433, 1686839079, 1),
+(2, 2, 'test', '778af09ce0b1760bb0dd0e7abef95984', '测试', '用于测试', '/uploads/avatar/uid_2.png', '', '', '', 2, 1697772242, 2130706433, 1687133115, 1);
 
 -- --------------------------------------------------------
 
@@ -123,27 +123,7 @@ INSERT INTO `wp_auth_rule` (`id`, `pid`, `title`, `icon`, `auth`, `href`, `targe
 (13, 1, '数据', 'layui-icon-component', '', '', '_iframe', 0, 1, ',1,', 0, 0, 0, 0, 1, 1),
 (14, 13, '图片附件', 'layui-icon-face-smile-fine', 'image/index', 'image/index', '_iframe', 1, 2, ',1,13,', 0, 0, 0, 0, 1, 1),
 (16, 13, '数据备份', 'layui-icon-face-smile-fine', 'database/index', 'database/index', '_iframe', 1, 2, ',1,13,', 0, 0, 0, 0, 1, 1),
-(17, 13, '数据恢复', 'layui-icon-face-smile-fine', 'database/restore', 'database/restore', '_iframe', 1, 2, ',1,13,', 0, 0, 0, 0, 1, 1),
-(18, 1, '博客', 'layui-icon-face-smile-fine', 'blog/index', 'blog/index', '_iframe', 1, 1, ',1,', 0, 0, 0, 2, 50, 1);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `wp_blog`
---
-
-CREATE TABLE `wp_blog` (
-  `id` int(11) UNSIGNED NOT NULL COMMENT 'ID',
-  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
-  `category_id` smallint(5) UNSIGNED NOT NULL DEFAULT '0' COMMENT '分类',
-  `thumb` varchar(100) NOT NULL DEFAULT '' COMMENT '封面图',
-  `tag_ids` varchar(200) NOT NULL DEFAULT '' COMMENT '标签',
-  `content` text NOT NULL COMMENT '内容',
-  `is_top` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '置顶',
-  `post_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发布时间',
-  `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `status` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='博客表';
+(17, 13, '数据恢复', 'layui-icon-face-smile-fine', 'database/restore', 'database/restore', '_iframe', 1, 2, ',1,13,', 0, 0, 0, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -338,13 +318,6 @@ CREATE TABLE `wp_model` (
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='模型表';
 
---
--- 转存表中的数据 `wp_model`
---
-
-INSERT INTO `wp_model` (`id`, `model_title`, `table_name`, `table_prefix`, `table_comment`, `table_engine`, `table_charset`, `table_collate`, `table_primary`, `list_order`, `list_limit`, `list_except`, `is_recycle`, `update_time`, `create_time`, `status`) VALUES
-(2, '博客', 'blog', 'wp_', '博客表', 'InnoDB', 'utf8mb4', 'utf8mb4_general_ci', 'id', 'id DESC', 10, 'content', 0, 1687614913, 1687614913, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -395,22 +368,6 @@ CREATE TABLE `wp_model_field` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='模型字段';
 
 --
--- 转存表中的数据 `wp_model_field`
---
-
-INSERT INTO `wp_model_field` (`id`, `model_id`, `field_title`, `field_name`, `field_type`, `field_length`, `field_default`, `field_comment`, `is_unsigned`, `is_required`, `is_autoinc`, `is_primary`, `at_list`, `at_add`, `at_edit`, `is_search`, `search_exp`, `list_tpl`, `form_type`, `input_title`, `input_default`, `input_verify`, `input_tip`, `bind_dict_id`, `verify_on`, `verify_rule`, `verify_msg`, `verify_at`, `verify_in`, `auto_on`, `auto_way`, `auto_rule`, `auto_at`, `auto_in`, `filter_on`, `filter_at`, `filter_in`, `level`, `sort`, `status`) VALUES
-(11, 2, 'ID', 'id', 'int', '11', 'null', 'ID', 1, 1, 1, 1, 1, 0, 0, 0, '=', '', 'text', '', '', 'nullable', '', 0, 0, '', '', 1, 1, 0, 'string', '', 1, 1, 0, 1, 1, 2, 1, 1),
-(12, 2, '标题', 'title', 'varchar', '100', '', '标题', 0, 1, 0, 0, 1, 1, 1, 1, 'like', '', 'text', '标题', '', 'required', '请输入标题', 0, 0, '', '', 1, 1, 0, 'string', '', 1, 1, 0, 1, 1, 0, 50, 1),
-(13, 2, '分类', 'category_id', 'smallint', '5', '0', '分类', 1, 1, 0, 0, 1, 1, 1, 1, '=', '', 'select', '分类', '1', 'required', '1=分类1|2=分类2|3=分类3', 0, 0, '', '', 1, 1, 0, 'string', '', 1, 1, 0, 1, 1, 0, 50, 1),
-(14, 2, '封面', 'thumb', 'varchar', '100', '', '封面图', 0, 1, 0, 0, 0, 1, 1, 0, '=', '', 'image', '封面', '', 'required', '请输入封面', 0, 0, '', '', 1, 1, 0, 'string', '', 1, 1, 0, 1, 1, 0, 50, 1),
-(15, 2, '标签', 'tag_ids', 'varchar', '200', '', '标签', 0, 1, 0, 0, 0, 1, 1, 0, '=', '', 'selects', '标签', '', 'required', '1=标签1|2=标签2|3=标签3|4=标签4|5=标签5', 0, 0, '', '', 1, 1, 0, 'string', '', 1, 1, 0, 1, 1, 0, 50, 1),
-(16, 2, '内容', 'content', 'text', '0', 'null', '内容', 0, 1, 0, 0, 0, 1, 1, 0, '=', '', 'editor', '内容', '', 'required', '请输入内容', 0, 0, '', '', 1, 1, 0, 'string', '', 1, 1, 0, 1, 1, 0, 51, 1),
-(17, 2, '置顶', 'is_top', 'tinyint', '1', '0', '置顶', 1, 1, 0, 0, 1, 1, 1, 0, '=', '{{- d.is_top == 1 ? \'<span style=\"color:red\">是</span>\' : \'否\' }}', 'switch', '置顶', '', 'required', '否|是', 0, 0, '', '', 1, 1, 1, 'string', '0', 5, 1, 0, 1, 1, 0, 52, 1),
-(18, 2, '发布时间', 'post_time', 'int', '10', '0', '发布时间', 1, 1, 0, 0, 1, 1, 1, 0, '=', '{{layui.util.toDateString(d.post_time*1000, \'yyyy-MM-dd HH:mm:ss\')}}', 'datetime', '发布', '', 'date', 'yyyy-MM-dd  HH:mm:ss', 0, 0, '', '', 1, 1, 1, 'function', 'strtotime', 1, 1, 0, 1, 1, 0, 899, 1),
-(19, 2, '创建时间', 'create_time', 'int', '10', '0', '创建时间', 1, 1, 0, 0, 1, 0, 0, 0, '=', '{{layui.util.toDateString(d.create_time*1000, \'yyyy-MM-dd\')}}', 'datetime', '', '', 'required', '', 0, 0, '', '', 1, 1, 0, 'string', '', 1, 1, 0, 1, 1, 0, 901, 1),
-(20, 2, '状态', 'status', 'tinyint', '1', '0', '状态', 1, 1, 0, 0, 1, 0, 0, 1, '=', '', 'switch', '状态', '', 'required', '停用|启用', 0, 0, '', '', 1, 1, 1, 'string', '1', 1, 2, 0, 1, 1, 1, 999, 1);
-
---
 -- 转储表的索引
 --
 
@@ -432,12 +389,6 @@ ALTER TABLE `wp_auth_group`
 ALTER TABLE `wp_auth_rule`
   ADD PRIMARY KEY (`id`),
   ADD KEY `pid` (`pid`);
-
---
--- 表的索引 `wp_blog`
---
-ALTER TABLE `wp_blog`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `wp_dict`
@@ -501,12 +452,6 @@ ALTER TABLE `wp_auth_rule`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=19;
 
 --
--- 使用表AUTO_INCREMENT `wp_blog`
---
-ALTER TABLE `wp_blog`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID';
-
---
 -- 使用表AUTO_INCREMENT `wp_dict`
 --
 ALTER TABLE `wp_dict`
@@ -528,7 +473,7 @@ ALTER TABLE `wp_field`
 -- 使用表AUTO_INCREMENT `wp_image`
 --
 ALTER TABLE `wp_image`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=14;
 
 --
 -- 使用表AUTO_INCREMENT `wp_model`

@@ -164,7 +164,7 @@
 
     //编辑(操作列)
     window.modelField = function(obj){
-      layer.open({ type: 2, title: '模型字段', shade: 0.1, area: screen(), content: "{:url('model_field/index')}?model_id="+obj.data['id'] });
+      layer.open({ type: 2, title: '模型字段', maxmin: true, shade: 0.1, area: screen(), content: "{:url('model_field/index')}?model_id="+obj.data['id'] });
     }
 
     //删除单行(操作列)

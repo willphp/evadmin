@@ -7,9 +7,6 @@ DROP TABLE IF EXISTS `wp_auth_group`;
 -- 清空表的: wp_auth_rule --
 DROP TABLE IF EXISTS `wp_auth_rule`;
 -- <fen> --
--- 清空表的: wp_blog --
-DROP TABLE IF EXISTS `wp_blog`;
--- <fen> --
 -- 清空表的: wp_dict --
 DROP TABLE IF EXISTS `wp_dict`;
 -- <fen> --

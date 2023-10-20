@@ -28,22 +28,35 @@ class Route
     {
         $this->controller = Config::init()->get('route.default_controller', 'index');
         $this->action = Config::init()->get('route.default_action', 'index');
-        $this->rule = Cache::make('__Route__', fn() => $this->ruleParse());
+        $this->rule = Cache::init()->make('__Route__', fn() => $this->ruleParse());
         $this->uri = $this->getUri();
-        $this->route = $this->parseRoute($this->uri, $_GET);
+        $this->route = $this->parseRoute($this->uri, $this->getParams());
         $this->controller = $this->route['controller'];
         $this->action = $this->route['action'];
         $this->path = $this->route['path'];
     }
 
-    protected function error(int $code, array $errs = [])
+    protected function getParams(): array
+    {
+        $params = [];
+        $request = parse_url($_SERVER['REQUEST_URI']);
+        if (isset($request['query'])) {
+            parse_str($request['query'], $params);
+        }
+        if (!empty($params)) {
+            Request::init()->setGet($params);
+        }
+        return $params;
+    }
+
+    protected function error(int $code, array $errs = []): void
     {
         Response::halt('', $code, $errs);
     }
 
     public function dispatch()
     {
-        if (IS_GET && Config::init()->get('view.cache', false) && $cache = Cache::get('view/' . md5($this->path))) {
+        if (IS_GET && Config::init()->get('view.cache', false) && $cache = Cache::init()->get('view/' . md5($this->path))) {
             return $cache;
         }
         $class = 'app\\' . APP_NAME . '\\controller\\' . name_camel($this->controller);
@@ -61,7 +74,6 @@ class Route
             }
             $this->error(404, $errs);
         }
-
         Middleware::init()->execute('framework.controller_start', ['path' => $this->path]);
         $class = App::make($class);
         $classMethod = new ReflectionMethod($class, $action);
@@ -86,16 +98,18 @@ class Route
                 $binds[$argName] = $params[$argName];
             } elseif (!is_null($argType) && !$argType->isBuiltin()) {
                 $binds[$argName] = App::make($argType->getName());
-            } elseif ($arg->isDefaultValueAvailable()) {
-                $binds[$argName] = $extend[$argName] = $arg->getDefaultValue();
             } elseif (isset($_POST[$argName])) {
                 $binds[$argName] = $_POST[$argName];
+            } elseif ($arg->isDefaultValueAvailable()) {
+                $binds[$argName] = $extend[$argName] = $arg->getDefaultValue();
             } else {
                 $errs['param'] = $argName;
                 $this->error(416, $errs);
             }
         }
-        Request::init()->setGet(array_merge($params, $extend));
+        if (!empty($extend)) {
+            Request::init()->setGet($extend);
+        }
         if (IS_POST && Config::init()->get('view.csrf_check', false)) {
             Request::init()->csrfCheck();
         }
@@ -223,7 +237,8 @@ class Route
     protected function getUri(): string
     {
         $uri = $this->controller . '/' . $this->action;
-        $pathinfo = trim($_SERVER['PATH_INFO'], '/');
+        $path = $_SERVER['PATH_INFO'] ?? $_SERVER['ORIG_PATH_INFO'] ?? $_SERVER['REDIRECT_PATH_INFO']  ?? $_SERVER['REDIRECT_URL'] ?? '';
+        $pathinfo = trim($path, '/');
         if (!empty($pathinfo)) {
             $pathinfo = preg_replace('/\/+/', '/', $pathinfo);
             $regex = Config::init()->get('route.check_regex', '#^[a-zA-Z0-9\x7f-\xff\%\/\.\-_]+$#');

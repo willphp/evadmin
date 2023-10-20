@@ -19,7 +19,7 @@
         .willphp-page-container{position:relative;z-index:1}
         .willphp-page-main{position:relative;background:#f9f9f9;margin:0 auto;-ms-box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding:25px 30px 30px 30px}
         .willphp-page-main:before{content:'';display:block;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmkAAAAHCAIAAADcck2GAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAACFSURBVHja7NWhDgFxHMDxOxNsNGc22aaZKXZZ5KKX8Fye498VgUJDEq6QCDbdI/zu83mDb/rm1XaXNcBkvXl+8vCZnUu63uvwmYtqdXt3w2eOXufD/hg+c1bOH71x+MzBtz6lFD6zGPbb02UTntLKAADvBADvBADvBADvBADvBAD+/QQYAPeEFhyocrThAAAAAElFTkSuQmCC);height:7px;position:absolute;top:-7px;width:100%;left:0}
-        .willphp-page-main h3{font-size:24px;color:#333;font-weight:400}
+        .willphp-page-main h3{font-size:22px;color:#333;font-weight:400}
         .willphp-page-main h3 strong{font-size:54px;font-weight:400;margin-right:20px}
         .willphp-page-head{text-align:right}
         .willphp-page-head a{font-size:14px;color:#999}
@@ -56,11 +56,11 @@
                 <a href="https://willphp.gitee.io/" target="_blank" class="green">开发手册</a>
             </div>
             <div class="willphp-page-menu">
-                <a href="{:url('index/index')}">首页</a> | <a href="{:url('abc/abc')}">测试</a>  | <a href="__ROOT__/admin.php">后台</a>
+                <a href="{:url('index/index')}">首页</a> | <a href="{:url('abc/abc')}">测试</a>
             </div>
             <div class="willphp-page-body cl">
                 <h4>开始使用</h4>
-                         <ol>
+                <ol>
                     <li>[本地]重命名<code class="blue">env.example.env</code>为<code class="blue">.env</code>命今行：<code class="blue">rename env.example.env .env</code></li>
                     <li>[本地]打开<code class="blue">.env</code>文件配置本地数据库</li>
                     <li>[上线]打开<code class="blue">config/database.php</code>配置服务器数据库</li>

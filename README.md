@@ -1,6 +1,6 @@
 ## EvAdmin
 
->一鱼PHP框架CURD快速开发平台
+>最新版移至：[一鱼PHP框架CURD快速开发平台](https://gitee.com/willphp/yiyuadmin)
 
 ### 功能简介
 
